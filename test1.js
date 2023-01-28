@@ -1,17 +1,12 @@
 posts = [
   {
     title: "first book",
-
     price: 100,
-
     time: new Date(),
   },
-
   {
     title: "second book",
-
     price: 200,
-
     time: new Date(),
   },
 ];
@@ -29,23 +24,38 @@ function getposts() {
 }
 
 function createPost(post) {
-  return new Promise((resolve,reject)=>{
-
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      posts.push(post );
-  const err=true
-  if(!err){
-    resolve("good")
-  }else{
-    reject("error something went wrong")
-  }
-      
+      posts.push(post);
+      const err = false;
+      if (!err) {
+        resolve();
+      } else {
+        reject("error something went wrong");
+      }
     }, 2000);
-  })
-  
+  });
+}
+function deletePost() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      posts.pop();
+      resolve();
+    }, 2000);
+  });
 }
 
- createPost({title:"forth book",price:400})
- .then(getposts)
- .catch((err)=>console.log(err))
-
+createPost({ title: "third book", price: 300 })
+  .then(function () {
+    getposts();
+    deletePost().then(function () {
+      getposts();
+      deletePost().then(function () {
+        getposts();
+        deletePost().then(function () {
+          getposts();
+        });
+      });
+    });
+  })
+  .catch((err) => console.log(err));
