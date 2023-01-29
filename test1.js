@@ -38,10 +38,17 @@ function createPost(post) {
 }
 function deletePost() {
   return new Promise((resolve, reject) => {
+  
     setTimeout(() => {
+      if(posts.length>0){
       posts.pop();
       resolve();
-    }, 2000);
+      }else{
+        reject("array is empty now")
+      }
+    }, 1000);
+
+
   });
 }
 
@@ -54,8 +61,29 @@ createPost({ title: "third book", price: 300 })
         getposts();
         deletePost().then(function () {
           getposts();
+          deletePost()
+          .catch(function(err){
+            console.log("error occured",err)
+          })
+
         });
       });
     });
   })
-  .catch((err) => console.log(err));
+
+
+  setTimeout(()=>{
+    createPost({title:"forth book", price: 400})
+    .then(function(){
+      getposts()
+    
+   deletePost().then(function(){
+    getposts()
+   })
+      
+    })
+  },7000)
+ 
+
+
+  
